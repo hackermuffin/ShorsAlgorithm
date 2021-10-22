@@ -16,9 +16,9 @@ namespace Quantum.Katas.ShorsAlgorithm {
         }
     }
 
-    @Test("")
+    @Test("QuantumSimulator")
     operation IsEven_Test () : Unit {
-        for i in 0..10 {
+        for i in 1..10 {
             EqualityFactB (IsEven(i), IsEven_Reference(i), "IsEven failed on " + IntAsString(i));
         }
     }

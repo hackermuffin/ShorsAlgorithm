@@ -3,16 +3,15 @@ namespace Quantum.Katas.ShorsAlgorithm {
     open Microsoft.Quantum.Arithmetic;
     open Microsoft.Quantum.Math;
 
+    open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Intrinsic;
 
     operation IsEven(N : Int) : Bool {
-        //TODO
-        return false;
+        return (N%2 == 0);
     }
 
 
 
-    open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Intrinsic;
     operation Test(qs : Qubit[]) : Unit {
         ApplyToEach(H,qs);
     }
