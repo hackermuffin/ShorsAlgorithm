@@ -86,27 +86,18 @@ namespace Quantum.Katas.ShorsAlgorithm {
         }
     }
 
-
-    @Test("QuantumSimulator")
-    operation Test_Test () : Unit {
-        let refOp = ApplyToEachCA(H,_);
-        let testOp = Test;
-        AssertOperationsEqualReferenced(3,testOp,refOp);
-    }
-    
     @Test("QuantumSimulator")
     operation OrderFindingOracle_Test () : Unit {
         let (a, N, r) = (2, 15, 3);
         let testOp = OrderFindingOracle(a,N,r,_);
         let refOp = OrderFindingOracle_Reference(a,N,r,_);
         use register = Qubit[BitSizeI(N)];
-        within { ApplyToEachCA(H,register); }
+        within { ApplyToEachCA(H,register); H(register[0]); }
         apply {
             testOp(register);
-            //Adjoint refOp(register);
+            Adjoint refOp(register);
         }
-        AssertAllZero(register);        
+        AssertAllZero(register);      
     }
-
 
 }

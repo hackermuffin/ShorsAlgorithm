@@ -90,12 +90,9 @@ namespace Quantum.Katas.ShorsAlgorithm {
         return GeneralCase_Reference(OrderFinder, N);
     }
 
-    operation Test(qs : Qubit[]) : Unit {
-        ApplyToEach(H,qs);
+    operation OrderFindingOracle(a : Int, N : Int, power : Int, target : Qubit[]) : Unit is Adj+Ctl {
+        MultiplyByModularInteger(ExpModI(a, power, N), N, LittleEndian(target));
     }
 
-    operation OrderFindingOracle(a : Int, N : Int, power : Int, target : Qubit[]) : Unit {
-        //MultiplyByModularInteger(ExpModI(a, power, N), N, LittleEndian(target));
-    }
 
 }
