@@ -80,6 +80,16 @@ namespace Quantum.Katas.ShorsAlgorithm {
         return (result, N/result);
     }
 
+    operation ShorsAlgorithm(OrderFinder : (Int, Int)=> Int, N : Int) : (Int, Int) {
+        if IsEven_Reference(N) {
+            return (2, N/2);
+        }
+        if IsPrime_Reference(N) {
+            fail IntAsString(N) + " is prime, so doesn't have factors.";
+        }
+        return GeneralCase_Reference(OrderFinder, N);
+    }
+
     operation Test(qs : Qubit[]) : Unit {
         ApplyToEach(H,qs);
     }

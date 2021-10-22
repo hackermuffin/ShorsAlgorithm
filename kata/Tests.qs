@@ -74,6 +74,18 @@ namespace Quantum.Katas.ShorsAlgorithm {
         }
     }
 
+    @Test("QuantumSimulator")
+    operation ShorsAlgorithm_Test() : Unit {
+        let valuesToFactorise = [4,6,8,10,14,15];
+        for i in 0..Length(valuesToFactorise)-1 {
+            let (factorOne, factorTwo) = ShorsAlgorithm(FindOrderClassical,valuesToFactorise[i]);
+            let (factorOneRef, factorTwoRef) = ShorsAlgorithm_Reference(FindOrderClassical_Reference,valuesToFactorise[i]);
+            let isMatch = (factorOne == factorOneRef and factorTwo == factorTwoRef) or (factorOne == factorTwoRef and factorTwo == factorOneRef);
+            EqualityFactB(isMatch, true, 
+                "Shor's Algorithm failed on factorising " + IntAsString(valuesToFactorise[i])); 
+        }
+    }
+
 
     @Test("QuantumSimulator")
     operation Test_Test () : Unit {

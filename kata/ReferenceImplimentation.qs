@@ -81,6 +81,16 @@ namespace Quantum.Katas.ShorsAlgorithm {
         return (result, N/result);
     }
 
+    operation ShorsAlgorithm_Reference(OrderFinder : (Int, Int)=> Int, N : Int) : (Int, Int) {
+        if IsEven_Reference(N) {
+            return (2, N/2);
+        }
+        if IsPrime_Reference(N) {
+            fail IntAsString(N) + " is prime, so doesn't have factors.";
+        }
+        return GeneralCase_Reference(OrderFinder, N);
+    }
+
     operation OrderFindingOracle_Reference(a : Int, N : Int, power : Int, target : Qubit[]) : Unit is Adj {
         MultiplyByModularInteger(ExpModI(a, power, N), N, LittleEndian(target));
     }
