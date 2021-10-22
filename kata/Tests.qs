@@ -45,9 +45,7 @@ namespace Quantum.Katas.ShorsAlgorithm {
         for a in 2..5 {
             for N in 10..15 {
                 if (GreatestCommonDivisor_Reference(a, N) == 1) {
-                    let bigA = IntAsBigInt(a);
-                    let bigN = IntAsBigInt(N);
-                    EqualityFactI(FindOrderClassical(bigA,bigN), FindOrderClassical_Reference(bigA,bigN),
+                    EqualityFactI(FindOrderClassical(a,N), FindOrderClassical_Reference(a,N),
                         "FindOrderClassical failed on a=" + IntAsString(a) + " N=" + IntAsString(N));
                 }
             }
@@ -62,6 +60,12 @@ namespace Quantum.Katas.ShorsAlgorithm {
             EqualityFactB(inRange,true,
                 "Random number generator returned " + IntAsString(result) + " with N=10");
         }
+    }
+
+    @Test("QuantumSimulator")
+    operation GeneralCase_Test() : Unit {
+        // let valuesToFactorise = [4,]
+        // for N in 
     }
 
 
