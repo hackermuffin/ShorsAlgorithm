@@ -18,13 +18,32 @@ namespace Quantum.Katas.ShorsAlgorithm {
         if (N%2 == 0) or (N%3 == 0) {
             return false;
         }
-        let sqrtN = DoubleAsInt(Sqrt(IntAsDouble(N)));
+        let sqrtN = Truncate(Sqrt(IntAsDouble(N)));
         for i in 5..6..sqrtN {
             if (N%i == 0) or (N%(i+2) == 0) {
                 return false;
             }
         }
         return true;
+    }
+
+    operation GreatestCommonDivisor(a : Int, N : Int) : Int {
+        let min = Min([a,N]);
+        mutable gcd = 1;
+        for i in 2..min {
+            if (a%i == 0 and N%i == 0) {
+                set gcd = i;
+            }
+        }
+        return gcd;
+    }
+
+    operation FindOrderClassical(a : BigInt, N : BigInt) : Int {
+        mutable power = 0;
+        repeat {
+            set power += 1;
+        } until (a^power % N == 1L);
+        return power;
     }
 
     operation Test(qs : Qubit[]) : Unit {

@@ -30,6 +30,30 @@ namespace Quantum.Katas.ShorsAlgorithm {
         }
     }
 
+    @Test("QuantumSimulator")
+    operation GreatestCommonDivisor_Test() : Unit {
+        for a in 2..10 {
+            for N in 2..10 {
+                EqualityFactI(GreatestCommonDivisor(a,N), GreatestCommonDivisor_Reference(a,N),
+                    "GreatestCommonDivisor failed for a=" + IntAsString(a) + " N=" + IntAsString(N));
+            }
+        }
+    }
+
+    @Test("QuantumSimulator")
+    operation FindOrderClassical_Test() : Unit {
+        for a in 2..5 {
+            for N in 10..15 {
+                if (GreatestCommonDivisor_Reference(a, N) == 1) {
+                    let bigA = IntAsBigInt(a);
+                    let bigN = IntAsBigInt(N);
+                    EqualityFactI(FindOrderClassical(bigA,bigN), FindOrderClassical_Reference(bigA,bigN),
+                        "FindOrderClassical failed on a=" + IntAsString(a) + " N=" + IntAsString(N));
+                }
+            }
+        }
+    }
+
 
     @Test("QuantumSimulator")
     operation Test_Test () : Unit {
