@@ -46,6 +46,16 @@ namespace Quantum.Katas.ShorsAlgorithm {
         return power;
     }
 
+    operation GenerateRandomNumber(N : Int) : Int {
+        use register = Qubit[BitSizeI(N-2)];
+        mutable result = 0;
+        repeat {
+            ApplyToEachCA(H,register);
+            set result = MeasureInteger(LittleEndian(register));
+        } until ((result + 2) < N);
+        return result+2;
+    }
+
     operation Test(qs : Qubit[]) : Unit {
         ApplyToEach(H,qs);
     }

@@ -3,6 +3,7 @@ namespace Quantum.Katas.ShorsAlgorithm {
     open Microsoft.Quantum.Arithmetic;
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Convert;
+    open Microsoft.Quantum.Canon;
 
 
     open Microsoft.Quantum.Intrinsic;
@@ -45,6 +46,16 @@ namespace Quantum.Katas.ShorsAlgorithm {
             set power += 1;
         } until (a^power % N == 1L);
         return power;
+    }
+
+    operation GenerateRandomNumber_Reference(N : Int) : Int {
+        use register = Qubit[BitSizeI(N-2)];
+        mutable result = 0;
+        repeat {
+            ApplyToEachCA(H,register);
+            set result = MeasureInteger(LittleEndian(register));
+        } until ((result + 2) < N);
+        return result+2;
     }
 
     operation OrderFindingOracle_Reference(a : Int, N : Int, power : Int, target : Qubit[]) : Unit is Adj {

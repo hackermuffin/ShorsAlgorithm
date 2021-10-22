@@ -54,6 +54,16 @@ namespace Quantum.Katas.ShorsAlgorithm {
         }
     }
 
+    @Test("QuantumSimulator")
+    operation GenerateRandomNumber_Test() : Unit {
+        for _ in 0..10 {
+            let result = GenerateRandomNumber(10);
+            let inRange = result > 1 and result < 10;
+            EqualityFactB(inRange,true,
+                "Random number generator returned " + IntAsString(result) + " with N=10");
+        }
+    }
+
 
     @Test("QuantumSimulator")
     operation Test_Test () : Unit {
