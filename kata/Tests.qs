@@ -23,6 +23,13 @@ namespace Quantum.Katas.ShorsAlgorithm {
         }
     }
 
+    @Test("QuantumSimulator")
+    operation IsPrime_Test() : Unit {
+        for i in 1..100 {
+            EqualityFactB(IsPrime(i), IsPrime_Reference(i), "IsPrime failed on " + IntAsString(i));
+        }
+    }
+
 
     @Test("QuantumSimulator")
     operation Test_Test () : Unit {
