@@ -3,7 +3,8 @@ namespace Quantum.Katas.ShorsAlgorithm {
     open Microsoft.Quantum.Arithmetic;
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Convert;
-
+    open Microsoft.Quantum.Oracles;
+    open Microsoft.Quantum.Characterization;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
 
@@ -92,6 +93,65 @@ namespace Quantum.Katas.ShorsAlgorithm {
 
     operation OrderFindingOracle(a : Int, N : Int, power : Int, target : Qubit[]) : Unit is Adj+Ctl {
         MultiplyByModularInteger(ExpModI(a, power, N), N, LittleEndian(target));
+    }
+
+    operation PrepareEigenstate(eigenstate : Qubit[]) : Unit is Adj+Ctl {
+        X(eigenstate[0]);
+    }
+
+    operation ApplyQuantumPhaseEstimation(oracle : DiscreteOracle, eigenstate : Qubit[], result : Qubit[]) : Int {
+        let resultBELE = LittleEndianAsBigEndian(LittleEndian(result));
+        QuantumPhaseEstimation(oracle,eigenstate,resultBELE);
+        return MeasureInteger(LittleEndian(result));
+    }
+
+    operation PhaseResultToPeriod(phaseResult : Int, bitsPrecision : Int, N : Int) : Int {
+        let fractionResult = Fraction(phaseResult,2^bitsPrecision);
+        let simplifiedFraction = ContinuedFractionConvergentI(fractionResult, N);
+        let (numerator, period) = simplifiedFraction!;
+        return AbsI(period);
+    }
+
+    operation FindOrderQuantum(a : Int, N : Int) : Int {
+        mutable result = 1;
+        let bitsize = BitSizeI(N);
+        let bitsPrecision = 2 * bitsize - 1; // decide on precision?
+        
+        repeat {
+            Message("Starting finding order...");
+            
+            // setup register holding 'eigenstate' of |1>
+            use eigenstate = Qubit[bitsize];
+            PrepareEigenstate(eigenstate);
+            
+            // setup register to contain QFE result
+            use phaseResult = Qubit[bitsPrecision];
+            
+            // measure the result from QPE
+            let oracle = DiscreteOracle(OrderFindingOracle(a,N,_,_));
+            //QuantumPhaseEstimation(oracle, eigenstate, LittleEndianAsBigEndian(phaseResultLE));
+            let phaseResultI = ApplyQuantumPhaseEstimation(oracle, eigenstate, phaseResult);
+            
+            ResetAll(eigenstate);
+            
+            
+            // calculate the period based of the phase result
+            let period = PhaseResultToPeriod(phaseResultI,bitsPrecision,N);
+            
+            Message(IntAsString(period));
+            
+            // deal with a zero return value
+            if (period == 0) { set result = 1; }
+            // account for sub factors
+            else { set result = (period * result) / GreatestCommonDivisorI(result, period); }
+            
+        }
+        until (ExpModI(a,result,N) == 1);
+        return result;
+    }
+
+    operation ShorsAlgorithmQuantum(N : Int) : (Int, Int) {
+        return ShorsAlgorithm(FindOrderQuantum,N);
     }
 
 
