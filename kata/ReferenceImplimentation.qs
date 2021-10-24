@@ -29,11 +29,11 @@ namespace Quantum.Katas.ShorsAlgorithm {
         return true;
     }
 
-    function FindOrderClassical_Reference(a : Int, N : Int) : Int{
+    operation FindOrderClassical_Reference(a : Int, N : Int) : Int{
         mutable power = 0;
-        while (a^power % N != 1) {
+        repeat {
             set power += 1;
-        }
+        } until (a^power % N == 1);
         return power;
     }
 
