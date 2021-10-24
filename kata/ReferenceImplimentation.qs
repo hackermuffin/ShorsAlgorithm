@@ -8,12 +8,12 @@ namespace Quantum.Katas.ShorsAlgorithm {
     open Microsoft.Quantum.Oracles;
     open Microsoft.Quantum.Intrinsic;
 
-    operation IsEven_Reference(N : Int) : Bool {
+    function IsEven_Reference(N : Int) : Bool {
         return (N%2 == 0);
     }
 
     // based on code from https://en.wikipedia.org/wiki/Primality_test#Python
-    operation IsPrime_Reference(N : Int) : Bool {
+    function IsPrime_Reference(N : Int) : Bool {
         if (N <= 3) {
             return (N > 1);
         }
@@ -29,15 +29,12 @@ namespace Quantum.Katas.ShorsAlgorithm {
         return true;
     }
 
-    operation FindOrderClassicalHelper_Reference(a : BigInt, N: BigInt) : Int {
+    function FindOrderClassical_Reference(a : Int, N : Int) : Int{
         mutable power = 0;
-        repeat {
+        while (a^power % N != 1) {
             set power += 1;
-        } until (a^power % N == 1L);
+        }
         return power;
-    }
-    operation FindOrderClassical_Reference(a : Int, N : Int) : Int{
-        return FindOrderClassicalHelper(IntAsBigInt(a),IntAsBigInt(N));
     }
 
     operation GenerateRandomNumber_Reference(N : Int) : Int {
@@ -101,7 +98,7 @@ namespace Quantum.Katas.ShorsAlgorithm {
         return MeasureInteger(LittleEndian(result));
     }
 
-    operation PhaseResultToPeriod_Reference(phaseResult : Int, bitsPrecision : Int, N : Int) : Int {
+    function PhaseResultToPeriod_Reference(phaseResult : Int, bitsPrecision : Int, N : Int) : Int {
         let fractionResult = Fraction(phaseResult,2^bitsPrecision);
         let simplifiedFraction = ContinuedFractionConvergentI(fractionResult, N);
         let (numerator, period) = simplifiedFraction!;
