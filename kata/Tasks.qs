@@ -100,7 +100,7 @@ namespace Quantum.Katas.ShorsAlgorithm {
         return MeasureInteger(LittleEndian(result));
     }
 
-    operation PhaseResultToPeriod(phaseResult : Int, bitsPrecision : Int, N : Int) : Int {
+    operation PhaseResultToOrder(phaseResult : Int, bitsPrecision : Int, N : Int) : Int {
         let fractionResult = Fraction(phaseResult,2^bitsPrecision);
         let simplifiedFraction = ContinuedFractionConvergentI(fractionResult, N);
         let (numerator, period) = simplifiedFraction!;
@@ -129,7 +129,7 @@ namespace Quantum.Katas.ShorsAlgorithm {
             
             
             // calculate the period based of the phase result
-            let period = PhaseResultToPeriod(phaseResultI,bitsPrecision,N);
+            let period = PhaseResultToOrder(phaseResultI,bitsPrecision,N);
             
             // deal with a zero return value
             if (period == 0) { set result = 1; }

@@ -143,7 +143,7 @@ namespace Quantum.Katas.ShorsAlgorithm {
         Message("Starting PhaseResultToPeriod_Test...");
         let phaseResults = [1*128,2*128,3*128];
         for i in 0..Length(phaseResults)-1 {
-            EqualityFactI(PhaseResultToPeriod(phaseResults[i],9,15),PhaseResultToPeriod_Reference(phaseResults[i],9,15),
+            EqualityFactI(PhaseResultToOrder(phaseResults[i],9,15),PhaseResultToOrder_Reference(phaseResults[i],9,15),
                 "Phase results failed converting "+IntAsString(phaseResults[i])+" with N=15, precision=9");
         }
     }

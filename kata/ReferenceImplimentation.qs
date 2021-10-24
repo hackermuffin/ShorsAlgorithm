@@ -98,7 +98,7 @@ namespace Quantum.Katas.ShorsAlgorithm {
         return MeasureInteger(LittleEndian(result));
     }
 
-    function PhaseResultToPeriod_Reference(phaseResult : Int, bitsPrecision : Int, N : Int) : Int {
+    function PhaseResultToOrder_Reference(phaseResult : Int, bitsPrecision : Int, N : Int) : Int {
         let fractionResult = Fraction(phaseResult,2^bitsPrecision);
         let simplifiedFraction = ContinuedFractionConvergentI(fractionResult, N);
         let (numerator, period) = simplifiedFraction!;
@@ -120,20 +120,17 @@ namespace Quantum.Katas.ShorsAlgorithm {
             
             // measure the result from QPE
             let oracle = DiscreteOracle(OrderFindingOracle(a,N,_,_));
-            //QuantumPhaseEstimation(oracle, eigenstate, LittleEndianAsBigEndian(phaseResultLE));
             let phaseResultI = ApplyQuantumPhaseEstimation(oracle, eigenstate, phaseResult);
             
             ResetAll(eigenstate);
             
             
             // calculate the period based of the phase result
-            let period = PhaseResultToPeriod(phaseResultI,bitsPrecision,N);
-            
-            // deal with a zero return value
-            if (period == 0) { set result = 1; }
+            let period = PhaseResultToOrder(phaseResultI,bitsPrecision,N);
+
             // account for sub factors
-            else { set result = (period * result) / GreatestCommonDivisorI(result, period); }
-            
+            if (period != 0) { set result = (period * result) / GreatestCommonDivisorI(result, period); }
+            // if period is zero leave result unchanged
         }
         until (ExpModI(a,result,N) == 1);
         return result;
