@@ -91,6 +91,12 @@ namespace Quantum.Katas.ShorsAlgorithm {
         return GeneralCase_Reference(OrderFinder, N);
     }
 
+    operation ShorsAlgorithmClassical(N : Int) : (Int, Int) {
+        return ShorsAlgorithm(FindOrderClassical, N);
+    }
+
+    // task 2
+
     operation OrderFindingOracle(a : Int, N : Int, power : Int, target : Qubit[]) : Unit is Adj+Ctl {
         MultiplyByModularInteger(ExpModI(a, power, N), N, LittleEndian(target));
     }
@@ -115,11 +121,9 @@ namespace Quantum.Katas.ShorsAlgorithm {
     operation FindOrderQuantum(a : Int, N : Int) : Int {
         mutable result = 1;
         let bitsize = BitSizeI(N);
-        let bitsPrecision = 2 * bitsize - 1; // decide on precision?
+        let bitsPrecision = 2 * bitsize + 1; // decide on precision?
         
         repeat {
-            Message("Starting finding order...");
-            
             // setup register holding 'eigenstate' of |1>
             use eigenstate = Qubit[bitsize];
             PrepareEigenstate(eigenstate);
@@ -137,8 +141,6 @@ namespace Quantum.Katas.ShorsAlgorithm {
             
             // calculate the period based of the phase result
             let period = PhaseResultToPeriod(phaseResultI,bitsPrecision,N);
-            
-            Message(IntAsString(period));
             
             // deal with a zero return value
             if (period == 0) { set result = 1; }
