@@ -11,11 +11,11 @@ namespace Quantum.Katas.ShorsAlgorithm {
     // ------------------------------------------------------
     // helper wrapper to test for operation equality on various register sizes
     // pulled from https://github.com/microsoft/QuantumKatas/blob/main/GroversAlgorithm/Tests.qs
-    operation AssertRegisterOperationsEqual (testOp : (Qubit[] => Unit), refOp : (Qubit[] => Unit is Adj)) : Unit {
-        for n in 2 .. 10 {
-            AssertOperationsEqualReferenced(n, testOp, refOp);
-        }
-    }
+    // operation AssertRegisterOperationsEqual (testOp : (Qubit[] => Unit), refOp : (Qubit[] => Unit is Adj)) : Unit {
+    //     for n in 2 .. 10 {
+    //         AssertOperationsEqualReferenced(n, testOp, refOp);
+    //     }
+    // }
 
     @Test("QuantumSimulator")
     operation IsEven_Test () : Unit {
@@ -34,22 +34,11 @@ namespace Quantum.Katas.ShorsAlgorithm {
     }
 
     @Test("QuantumSimulator")
-    operation GreatestCommonDivisor_Test() : Unit {
-        Message("Starting GreatestCommonDivisor_Test...");
-        for a in 2..10 {
-            for N in 2..10 {
-                EqualityFactI(GreatestCommonDivisor(a,N), GreatestCommonDivisor_Reference(a,N),
-                    "GreatestCommonDivisor failed for a=" + IntAsString(a) + " N=" + IntAsString(N));
-            }
-        }
-    }
-
-    @Test("QuantumSimulator")
     operation FindOrderClassical_Test() : Unit {
         Message("Starting FindOrderClassical_Test...");
         for a in 2..5 {
             for N in 10..15 {
-                if (GreatestCommonDivisor_Reference(a, N) == 1) {
+                if (GreatestCommonDivisorI(a, N) == 1) {
                     EqualityFactI(FindOrderClassical(a,N), FindOrderClassical_Reference(a,N),
                         "FindOrderClassical failed on a=" + IntAsString(a) + " N=" + IntAsString(N));
                 }
@@ -143,7 +132,7 @@ namespace Quantum.Katas.ShorsAlgorithm {
             set count += 1;
         } until (count >= 10 or foundCorrectResult)
         fixup {
-            Message("Did not find valid result on attempt " + IntAsString(count) + ", retrying...");
+            Message("ApplyQuantumPhaseEstimation_Test did not find valid result on attempt " + IntAsString(count) + ", retrying...");
         }
         EqualityFactB(foundCorrectResult,true,
             "ApplyQuantumPhaseEstimation failed to produce a valid result after 10 tries.");

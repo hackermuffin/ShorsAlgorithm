@@ -28,17 +28,6 @@ namespace Quantum.Katas.ShorsAlgorithm {
         return true;
     }
 
-    operation GreatestCommonDivisor(a : Int, N : Int) : Int {
-        let min = Min([a,N]);
-        mutable gcd = 1;
-        for i in 2..min {
-            if (a%i == 0 and N%i == 0) {
-                set gcd = i;
-            }
-        }
-        return gcd;
-    }
-
     operation FindOrderClassicalHelper(a : BigInt, N: BigInt) : Int {
         mutable power = 0;
         repeat {
@@ -64,15 +53,15 @@ namespace Quantum.Katas.ShorsAlgorithm {
     operation GeneralCase(OrderFinder : ((Int, Int)=>Int), N : Int) : (Int, Int) {
         mutable result = 0;
         repeat {
-            let a = GenerateRandomNumber_Reference(N);
-            let gcd = GreatestCommonDivisor_Reference(a,N);
+            let a = GenerateRandomNumber(N);
+            let gcd = GreatestCommonDivisorI(a,N);
             if (gcd > 1) {
                 return (gcd, N/gcd);
             }
             let r = OrderFinder(a,N);
             if (IsEven_Reference(r)) {
                 let x = (a^(r/2) - 1) % N;
-                let gcdX = GreatestCommonDivisor_Reference(x,N);
+                let gcdX = GreatestCommonDivisorI(x,N);
                 if (gcdX > 1) {
                     set result = gcdX;
                 }
