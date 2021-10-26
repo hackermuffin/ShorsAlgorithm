@@ -78,11 +78,8 @@ namespace Quantum.Katas.ShorsAlgorithm {
     }
 
     operation ShorsAlgorithmClassical_Reference(N : Int) : (Int, Int) {
-        return ShorsAlgorithm(FindOrderClassical, N);
+        return ShorsAlgorithm_Reference(FindOrderClassical_Reference, N);
     }
-
-    
-    // part 2
 
     operation OrderFindingOracle_Reference(a : Int, N : Int, power : Int, target : Qubit[]) : Unit is Adj+Ctl {
         MultiplyByModularInteger(ExpModI(a, power, N), N, LittleEndian(target));
@@ -126,7 +123,7 @@ namespace Quantum.Katas.ShorsAlgorithm {
             
             
             // calculate the period based of the phase result
-            let period = PhaseResultToOrder(phaseResultI,bitsPrecision,N);
+            let period = PhaseResultToOrder_Reference(phaseResultI,bitsPrecision,N);
 
             // account for sub factors
             if (period != 0) { set result = (period * result) / GreatestCommonDivisorI(result, period); }
@@ -137,6 +134,6 @@ namespace Quantum.Katas.ShorsAlgorithm {
     }
 
     operation ShorsAlgorithmQuantum_Reference(N : Int) : (Int, Int) {
-        return ShorsAlgorithm(FindOrderQuantum,N);
+        return ShorsAlgorithm_Reference(FindOrderQuantum,N);
     }
 }

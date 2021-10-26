@@ -77,6 +77,7 @@ namespace Quantum.Katas.ShorsAlgorithm {
         for i in 0..Length(valuesToFactorise)-1 {
             let (factorOne, factorTwo) = ShorsAlgorithmClassical(valuesToFactorise[i]);
             let (factorOneRef, factorTwoRef) = ShorsAlgorithmClassical_Reference(valuesToFactorise[i]);
+            Message(IntAsString(factorOne)+IntAsString(factorTwo)+IntAsString(factorOneRef)+IntAsString(factorTwoRef));
             let isMatch = (factorOne == factorOneRef and factorTwo == factorTwoRef) or (factorOne == factorTwoRef and factorTwo == factorOneRef);
             EqualityFactB(isMatch, true, 
                 "Shor's Algorithm failed on factorising " + IntAsString(valuesToFactorise[i])); 
@@ -104,7 +105,7 @@ namespace Quantum.Katas.ShorsAlgorithm {
         for i in 1..4 {
             use register = Qubit[i];
             PrepareEigenstate(register);
-            Adjoint PrepareEigenstate(register);
+            Adjoint PrepareEigenstate_Reference(register);
             AssertAllZero(register);
         }
     }
@@ -139,8 +140,8 @@ namespace Quantum.Katas.ShorsAlgorithm {
     }
 
     @Test("QuantumSimulator")
-    operation PhaseResultToPeriod_Test() : Unit {
-        Message("Starting PhaseResultToPeriod_Test...");
+    operation PhaseResultToOrder_Test() : Unit {
+        Message("Starting PhaseResultToOrder_Test...");
         let phaseResults = [1*128,2*128,3*128];
         for i in 0..Length(phaseResults)-1 {
             EqualityFactI(PhaseResultToOrder(phaseResults[i],9,15),PhaseResultToOrder_Reference(phaseResults[i],9,15),
